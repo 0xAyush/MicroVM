@@ -20,7 +20,7 @@
 //Program
 //TODO: Load state from file.
 #define PROGRAM_LENGTH 10
-unsigned short program[PROGRAM_LENGTH] = {JMP,3,0,DSP,HLT,0,0,0,0,0};
+unsigned short program[PROGRAM_LENGTH] = {HLT,0,0,0,0,0,0,0,0,0};
 
 int main() {
 	unsigned short* memory = malloc(sizeof(unsigned short) * MAXMEM);
@@ -98,7 +98,11 @@ int main() {
 			break;
 
 			case CPZ:
-			if(!*(memory + memory_counter)) zero_flag = 1;
+			if(!*(memory + memory_counter)) {
+				zero_flag = 1;
+			} else {
+				zero_flag = 0;
+			}
 			break;
 
 			case HLT:

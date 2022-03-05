@@ -16,11 +16,12 @@
 #define HLT 0x9 // Halt
 #define JMP 0xA // Jump to specified address
 #define JMM 0xB // Change memory counter register to specified location
+#define NOP 0xC // No operations
 
 //Program
 //TODO: Load state from file.
 #define PROGRAM_LENGTH 10
-unsigned short program[PROGRAM_LENGTH] = {HLT,0,0,0,0,0,0,0,0,0};
+unsigned short program[PROGRAM_LENGTH] = {HLT,NOP,NOP,NOP,NOP,NOP,NOP,NOP,NOP,NOP};
 
 int main() {
 	unsigned short* memory = malloc(sizeof(unsigned short) * MAXMEM);
@@ -117,6 +118,9 @@ int main() {
 			case JMM:
 			memory_counter = instruction_register[1];
 			program_counter += 1;
+			break;
+
+			case NOP:
 			break;
 
 			default:

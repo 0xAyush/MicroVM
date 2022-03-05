@@ -9,6 +9,9 @@ A very small  VM loosely based on the [P'' formal language](https://en.wikipedia
 * MicroVM is capable of IO unlike the origional P''.
 * MicroVM is turing complete by design.
 
+MicroVM's memory is made up to 65536 (or 2<sup>16</sup>) cells, each cell can hold two bytes.
+Some operations allow you to move the reading head (also called the memory counter) allowing you to read and write to/from a specific cell.
+
 # Specifications
 Memory: 131 kb (131072 b)
 

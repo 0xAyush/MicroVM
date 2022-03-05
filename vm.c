@@ -1,3 +1,5 @@
+// Copright 2022 Ayush Sharma
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -20,8 +22,9 @@
 
 //Program
 //TODO: Load state from file.
-#define PROGRAM_LENGTH 10
-unsigned short program[PROGRAM_LENGTH] = {HLT,NOP,NOP,NOP,NOP,NOP,NOP,NOP,NOP,NOP};
+#define PROGRAM_LENGTH 20
+unsigned short program[PROGRAM_LENGTH] = {JMM,20,LDS,NXT,LDS,PRV,DEC,NXT,INC,PRV,CPZ,JNZ,6,NXT,DSP,JMP,2,NOP,NOP,NOP};
+// Above program takes two inputs and add them then outputs the result
 
 int main() {
 	unsigned short* memory = malloc(sizeof(unsigned short) * MAXMEM);
@@ -46,6 +49,9 @@ int main() {
 		//Fetch
 		instruction_register[0] = *(memory + program_counter);
 		instruction_register[1] = *(memory + program_counter + 1);
+		/*printf("INSTRUCTION : %d ",instruction_register[0]); // Debugging helpers
+		printf("PROGRAM COUNTER: %d ",program_counter);
+		printf("MEMORY COUNTER: %d\n",memory_counter);*/
 		//Decode
 		switch(instruction_register[0]) {
 			//Execute
@@ -77,6 +83,8 @@ int main() {
 			if(zero_flag) {
 				program_counter = instruction_register[1];
 				jmp_flag = 1;
+			} else {
+				program_counter += 1;
 			}
 			break;
 
@@ -84,6 +92,8 @@ int main() {
 			if(!zero_flag) {
 				program_counter = instruction_register[1];
 				jmp_flag = 1;
+			} else {
+				program_counter += 1;
 			}
 			break;
 
@@ -95,7 +105,8 @@ int main() {
 			case LDS:
 			unsigned short b = 0;
 			printf("? ");
-			scanf(" %d",&a);
+			scanf(" %d",&b);
+			*(memory + memory_counter) = b;
 			break;
 
 			case CPZ:

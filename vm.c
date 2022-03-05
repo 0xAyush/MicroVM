@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAXMEM 65536
+
+#define MAXMEM 65536 // 2^16
 
 // Opcodes
 #define NXT 0x0 // Next
@@ -19,7 +20,7 @@
 //Program
 //TODO: Load state from file.
 #define PROGRAM_LENGTH 10
-unsigned short program[PROGRAM_LENGTH] = {HLT,0,NXT,0,NXT,0,DSP,0,HLT,0};
+unsigned short program[PROGRAM_LENGTH] = {JMP,3,0,DSP,HLT,0,0,0,0,0};
 
 int main() {
 	unsigned short* memory = malloc(sizeof(unsigned short) * MAXMEM);

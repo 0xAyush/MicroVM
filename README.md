@@ -1,5 +1,5 @@
 # MicroVM
-A very small  VM loosely based on the [P'' formal language](https://en.wikipedia.org/wiki/P′′).
+A very small 16 bit VM loosely based on the [P'' formal language](https://en.wikipedia.org/wiki/P′′).
 
 ## Features
 * MicroVM supports 16 bit addresses.
@@ -24,7 +24,7 @@ Registers store data temporarily.
 |Memory counter|2 bytes|
 |Instruction Register|4 bytes|
 
-**Note**:Instruction register requires 4 bytes to store a 2 byte opcode and a 2 byte operand.
+**Note**: Instruction register requires 4 bytes to store a 2 byte opcode and a 2 byte operand.
 
 ## Flags
 Flags are boolean values which are set on/off based on certain conditions.

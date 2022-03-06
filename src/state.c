@@ -1,3 +1,5 @@
+// Copright 2022 Ayush Sharma
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "state.h"

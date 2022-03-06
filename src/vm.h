@@ -1,3 +1,5 @@
+// Copright 2022 Ayush Sharma
+
 #pragma once
 
 #define MAXMEM 65536 // 2^16

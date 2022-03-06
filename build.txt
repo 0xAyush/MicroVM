@@ -1,0 +1,11 @@
+BUILD INSTRUCTIONS
+IF USING GCC USE THE FOLLOWING COMMANDS
+
+$ gcc src/vm.c src/state.c -c
+$ g++ src/microvm.cpp -c
+
+THEN
+
+$ g++ *.o -o microvm
+
+IF USING ANOTHER COMPILER USE THEIR EQUIVALENT COMMANDS

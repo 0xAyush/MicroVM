@@ -1,3 +1,7 @@
+// Copright 2022 Ayush Sharma
+
+#pragma once
+
 typedef struct {
     unsigned short* state_ptr;
     int state_length;

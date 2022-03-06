@@ -6,7 +6,7 @@
 #include "state.h"
 
 int microvm(unsigned short* program,int program_length) {
-	unsigned short* memory = (unsigned short*)malloc(sizeof(unsigned short) * MAXMEM);
+	unsigned short* memory = (unsigned short*)malloc(sizeof(unsigned short) * MAXMEM); // VM memory
 
 	if(memory == NULL) {
 		perror("Unable to allocate memory for VM");
@@ -15,20 +15,22 @@ int microvm(unsigned short* program,int program_length) {
 
 	for(int i = 0; i < MAXMEM - 1; i++) *(memory + i) = NOP;
 	*(memory + MAXMEM - 1) = HCF;
+
+	for(int i = 0; i < program_length; i++) { // Load the program
+		*(memory + i) = *(program + i);
+	}
+
 	//Registers
 	unsigned short memory_counter = 0;
 	unsigned short program_counter = 0;
 	unsigned short instruction_register[] = {0,0};
+
 	//Flags
 	unsigned short zero_flag = 0;
 	unsigned short halt_flag = 0;
 	unsigned short err_flag = 0;
 	unsigned short jmp_flag = 0;
 	unsigned short term_flag = 0;
-
-	for(int i = 0; i < program_length; i++) {
-		*(memory + i) = *(program + i);
-	}
 	
 	//Fetch, Decode, Execute Cycle
 	while(!halt_flag && !term_flag) {
@@ -131,7 +133,7 @@ int microvm(unsigned short* program,int program_length) {
 			err_flag = 1;
 			halt_flag = 1;
 		}
-		//Cycle
+		//Cycle, if there has been a jump leave the program counter alone
 		if(program_counter < MAXMEM - 1 && !jmp_flag) {
 			program_counter += 1;
 		} else if(!jmp_flag) {

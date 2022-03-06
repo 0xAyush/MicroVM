@@ -5,12 +5,6 @@
 #include "vm.h"
 #include "state.h"
 
-//Program
-//TODO: Load state from file.
-#define PROGRAM_LENGTH 20
-unsigned short program[PROGRAM_LENGTH] = {JMM,20,LDS,NXT,LDS,PRV,DEC,NXT,INC,PRV,CPZ,JNZ,6,NXT,DSP,JMP,2,NOP,NOP,NOP};
-// Above program takes two inputs and add them then outputs the result
-
 int main() {
 	state_file sf = readstate();
 	if(sf.err_no > 0) {

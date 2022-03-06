@@ -33,7 +33,7 @@ state_file readstate(){
     long fsize = ftell(fptr);
     rewind(fptr);
 
-    unsigned short* dataptr = malloc(fsize);
+    unsigned short* dataptr = (unsigned short*) malloc(fsize);
     int datalength = fsize/sizeof(unsigned short);
     if(dataptr == NULL) {
         perror("Unable to allocate memory for loading state");

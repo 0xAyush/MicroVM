@@ -1,6 +1,8 @@
 #include <stdlib.h>
-#include "vm.h"
-#include "state.h"
+extern "C" {
+	#include "vm.h"
+	#include "state.h"
+}
 
 int main() {
 	state_file sf = readstate();

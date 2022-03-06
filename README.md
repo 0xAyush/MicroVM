@@ -31,7 +31,7 @@ Flags are boolean values which are set on/off based on certain conditions.
 
 |Flag|Size|Condition|
 |---|---|---|
-|Zero flag|2 bytes|Set to 1 when CPZ encounters a 0 operand, set to 0 otherwise|
+|Zero flag|2 bytes|Set to 1 when CPZ encounters a memory cell with value 0, set to 0 otherwise|
 |Jump flag|2 bytes|Temporarily set to 1 by jump operations, set to 0 during program cycle|
 |Error flag|2 bytes|Set to 1 when a fatal error occurs, 0 otherwise|
 |Halt flag|2 bytes|0 by default, set to one by HLT instruction, causes the VM to halt|

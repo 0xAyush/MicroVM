@@ -2,23 +2,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#define MAXMEM 65536 // 2^16
-
-// Opcodes
-#define NXT 0x0 // Next
-#define PRV 0x1 // Previous
-#define INC 0x2 // Increment
-#define DEC 0x3 // Decrement
-#define JEZ 0x4 // Jump if zero flag is set
-#define JNZ 0x5 // Jump if zero flag is not set
-#define DSP 0x6 // Print current cell
-#define LDS 0x7 // Take input at current cell
-#define CPZ 0x8 // Sets zero-flag if current cell is 0
-#define HLT 0x9 // Halt
-#define JMP 0xA // Jump to specified address
-#define JMM 0xB // Change memory counter register to specified location
-#define NOP 0xC // No operations
+#include "vm.h"
+#include "state.h"
 
 //Program
 //TODO: Load state from file.
@@ -27,8 +12,27 @@ unsigned short program[PROGRAM_LENGTH] = {JMM,20,LDS,NXT,LDS,PRV,DEC,NXT,INC,PRV
 // Above program takes two inputs and add them then outputs the result
 
 int main() {
+	state_file sf = readstate();
+	if(sf.err_no > 0) {
+		exit(sf.err_no);
+	}
+	int mvm = microvm(sf.state_ptr,sf.state_length);
+	if(mvm > 0) {
+		exit(2 + mvm);
+	}
+	return 0;
+}
+
+int microvm(unsigned short* program,int program_length) {
 	unsigned short* memory = malloc(sizeof(unsigned short) * MAXMEM);
-	for(int i = 0; i < MAXMEM; i++) *(memory + i) = 0;
+
+	if(memory == NULL) {
+		perror("Unable to allocate memory for VM");
+		return 2;
+	}
+
+	for(int i = 0; i < MAXMEM - 1; i++) *(memory + i) = NOP;
+	*(memory + MAXMEM - 1) = HCF;
 	//Registers
 	unsigned short memory_counter = 0;
 	unsigned short program_counter = 0;
@@ -38,13 +42,14 @@ int main() {
 	unsigned short halt_flag = 0;
 	unsigned short err_flag = 0;
 	unsigned short jmp_flag = 0;
+	unsigned short term_flag = 0;
 
-	for(int i = 0; i < PROGRAM_LENGTH; i++) {
-		*(memory + i) = program[i];
+	for(int i = 0; i < program_length; i++) {
+		*(memory + i) = *(program + i);
 	}
 	
 	//Fetch, Decode, Execute Cycle
-	while(!halt_flag) {
+	while(!halt_flag && !term_flag) {
 		jmp_flag = 0;
 		//Fetch
 		instruction_register[0] = *(memory + program_counter);
@@ -103,10 +108,15 @@ int main() {
 			break;
 
 			case LDS:
-			unsigned short b = 0;
+			char b[5];
 			printf("? ");
-			scanf(" %d",&b);
-			*(memory + memory_counter) = b;
+			fgets(b,5,stdin);
+			if(b[0] == 'q') {
+				term_flag = 1;
+				break;
+			}
+			unsigned short x = (unsigned short)atoi(b);
+			*(memory + memory_counter) = x;
 			break;
 
 			case CPZ:
@@ -135,7 +145,7 @@ int main() {
 			break;
 
 			default:
-			printf("The VM halted and caught fire.");
+			printf("The VM halted and caught fire.\n");
 			err_flag = 1;
 			halt_flag = 1;
 		}
@@ -146,8 +156,10 @@ int main() {
 			program_counter = 0;
 		}
 	}
-	if(!err_flag) {
+	if(!err_flag && !term_flag) {
 		printf("The program halted succesfully.\n");
+	} else if(term_flag) {
+		printf("Program terminated succesfully.\n");
 	}
-	return 0;
+	return err_flag;
 }

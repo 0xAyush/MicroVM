@@ -18,6 +18,6 @@
 #define JMP 0xA // Jump to specified address
 #define JMM 0xB // Change memory counter register to specified location
 #define NOP 0xC // No operation
-#define HCF 0XFF // Halt and catch fire
+#define HCF 0xF // Halt and catch fire
 
 int microvm(unsigned short* program, int program_length,char debug_flag);

@@ -3,19 +3,20 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+
+#include "comp.hpp"
+
 extern "C" {
 	#include "vm.h"
 	#include "state.h"
 }
 
 void executeVM(std::string fname,bool debug_mode);
-void decodeArgs(int argc, char** argv);
-
-int gErr = 1;
+int decodeArgs(int argc, char** argv);
 
 int main(int argc, char** argv) {
-	decodeArgs(argc, argv);
-	return gErr;
+	int err = decodeArgs(argc, argv);
+	return err;
 }
 
 void executeVM(std::string fname,bool debug_mode) {
@@ -33,10 +34,10 @@ void executeVM(std::string fname,bool debug_mode) {
 	}
 }
 
-void decodeArgs(int argc,char** argv) {
+int decodeArgs(int argc,char** argv) {
 	if(argc > 3) {
 		std::cout << "Too many arguments max 2" << std::endl;
-		return;
+		return 6;
 	}
 
 	std::string fname;
@@ -49,14 +50,14 @@ void decodeArgs(int argc,char** argv) {
 			std::string arg = argv[i];
 			if(arg == "-help") {
 				std::cout << "Help." << std::endl;
-				return;
-			} else if(arg == "-r") {
+				return 0;
+			} else if(arg == "-c") {
 				CompileFlag = true;
 			} else if(arg == "-d") {
 				DebugFlag = true;
 			} else {
 				std::cout << "Unknown flag '" << arg << "'" << std::endl;
-				return;
+				return 4;
 			}
 		} else {
 			fname = argv[i];
@@ -65,7 +66,7 @@ void decodeArgs(int argc,char** argv) {
 	if(CompileFlag && DebugFlag) {
 			std::cout << "Error bad arguments." << std::endl;
 	} else if(CompileFlag) {
-		std::cout << "Compiling " << fname << std::endl;
+		int err = compile(fname);
 	} else if(DebugFlag) {
 		std::cout << "Debugging " << fname << std::endl;
 	}
@@ -73,5 +74,5 @@ void decodeArgs(int argc,char** argv) {
 	if(!CompileFlag) {
 		executeVM(fname,DebugFlag);
 	}
-	gErr = 0;
+	return 0;
 }

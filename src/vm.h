@@ -20,4 +20,4 @@
 #define NOP 0xC // No operation
 #define HCF 0XFF // Halt and catch fire
 
-int microvm(unsigned short* program, int program_length);
+int microvm(unsigned short* program, int program_length,char debug_flag);

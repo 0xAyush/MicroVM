@@ -8,5 +8,5 @@ typedef struct {
     int err_no;
 } state_file;
 
-int writestate(unsigned short* stateptr, int state_size);
-state_file readstate();
+int writestate(unsigned short* stateptr, int state_size,const char* fname);
+state_file readstate(const char* fname);

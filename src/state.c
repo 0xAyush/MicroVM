@@ -5,11 +5,11 @@
 #include "state.h"
 
 
-int writestate(unsigned short* stateptr, int state_size) {
+int writestate(unsigned short* stateptr, int state_size,const char* fname) {
 
-    FILE* fptr = fopen("state.dat","wb");
+    FILE* fptr = fopen(fname,"wb");
     if(fptr == NULL) {
-        perror("Unable to open state.dat for writing");
+        perror("Unable to open file for writing");
         return 1;
     }
 
@@ -19,14 +19,14 @@ int writestate(unsigned short* stateptr, int state_size) {
     return 0;
 }
 
-state_file readstate(){
+state_file readstate(const char* fname){
 
     state_file data;
     data.err_no = 0;
 
-    FILE* fptr = fopen("state.dat","rb");
+    FILE* fptr = fopen(fname,"rb");
     if(fptr == NULL) {
-        perror("Unable to open state.dat for reading");
+        perror("Unable to open file for reading");
         data.err_no = 1;
         return data;
     }

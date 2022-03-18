@@ -5,7 +5,7 @@
 #include "vm.h"
 #include "state.h"
 
-int microvm(unsigned short* program,int program_length) {
+int microvm(unsigned short* program,int program_length,char debug_flag) {
 	unsigned short* memory = (unsigned short*)malloc(sizeof(unsigned short) * MAXMEM); // VM memory
 
 	if(memory == NULL) {
@@ -38,10 +38,14 @@ int microvm(unsigned short* program,int program_length) {
 		//Fetch
 		instruction_register[0] = *(memory + program_counter);
 		instruction_register[1] = *(memory + program_counter + 1);
-		/*printf("INSTRUCTION : %d ",instruction_register[0]); // Debugging helpers
-		printf("PROGRAM COUNTER: %d ",program_counter);
-		printf("MEMORY COUNTER: %d\n",memory_counter);*/
-		//Decode
+
+		if(debug_flag) {
+			printf("INSTRUCTION : %d ",instruction_register[0]); // Debugging helpers
+			printf("PROGRAM COUNTER: %d ",program_counter);
+			printf("MEMORY COUNTER: %d\n",memory_counter);
+		}
+
+				//Decode
 		switch(instruction_register[0]) {
 			//Execute
 			case NXT:

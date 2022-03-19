@@ -1,4 +1,4 @@
-// Copyright 2022 Ayush Sharma
+// Copyright (c) 2022 Ayush Sharma
 
 // This file contains functions for loading and writing VM memory states
 

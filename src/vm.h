@@ -1,4 +1,4 @@
-// Copyright 2022 Ayush Sharma
+// Copyright (c) 2022 Ayush Sharma
 
 #pragma once
 

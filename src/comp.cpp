@@ -1,6 +1,6 @@
-// Copyright 2022 Ayush Sharma
+// Copyright (c) 2022 Ayush Sharma
 
-// This file contains code for the MVScript compiler
+// This file contains code for the MVScript 0.1 compiler
 
 #include <iostream>
 #include <string>
@@ -9,12 +9,7 @@
 
 #include "comp.hpp"
 
-extern "C" {
-	#include "vm.h"
-	#include "state.h"
-}
-
-int compile(std::string fname) {
+int compile(std::string fname,std::string ofname) {
 
 	unsigned short program[MAXMEM];
 	bool validProgram = true;
@@ -39,8 +34,6 @@ int compile(std::string fname) {
 
 		for(int i = 0; i < line.length(); i++) {
 
-			if(eo_program < put_i) eo_program = put_i;
-			
 			char c = line[i];
 
 			//Start of a word
@@ -118,6 +111,8 @@ int compile(std::string fname) {
 
 			if(c == '/') break; // Comment logic
 
+			if(eo_program < put_i) eo_program = put_i;
+
 		}
 		if(!validProgram) break;
 		lineNo++;
@@ -127,12 +122,11 @@ int compile(std::string fname) {
 		std::cout << "Error in line " << lineNo << std::endl;
 		std::cout << errtext << std::endl;
 	} else {
-		std::string nfname = fname.substr(0,fname.length()-4) + ".bin";
-		int err = writestate(program,eo_program,(nfname).c_str());
+		int err = writestate(program,eo_program,(ofname+".bin").c_str());
 		if(err > 0) {
 			return 5;
 		} else {
-			std::cout << "Output saved as "<< nfname << std::endl;
+			std::cout << "Done." << std::endl;
 		}
 	}
 
@@ -151,7 +145,7 @@ unsigned short getop(std::string word) {
 	else if(word == "LDS") return LDS;
 	else if(word == "CPZ") return CPZ;
 	else if(word == "HLT" || word == "HALT") return HLT;
-	else if(word == "JMP") return JMP;
+	else if(word == "JMP" || word == "JUMP" || word == "GOTO") return JMP;
 	else if(word == "JMM") return JMM;
 	else if(word == "NOP") return NOP;
 	else if(word == "HCF") return HCF;

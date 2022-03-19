@@ -54,3 +54,4 @@ Heres is a list of supported operators and their opcodes.
 |DSP|Display|0x7|Outputs current cell to screen|
 |LDS|Load from screen|0x8|Loads data to cell|
 |HLT|Halt|0xA|Sets halt flag to 1, this causes the VM to halt|
+|PUT|Put character|0xD|Put the ASCII character corresponding to value at current memory cell on screen|

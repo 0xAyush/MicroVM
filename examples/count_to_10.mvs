@@ -1,0 +1,12 @@
+Copyright (c) 2022 Ayush Sharma
+
+COUNT TO 10
+THIS PROGRAM COUNTS TO 10
+
+PROGRAM
+
+ 00 $JMM #20
+ 02 $DEC $NXT $INC $DSP $PRV
+ 07 $CPZ $JNZ #2
+ 10 $HALT
+~20 #10 <- A IN HEX

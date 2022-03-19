@@ -95,7 +95,7 @@ int microvm(unsigned short* program,int program_length,char debug_flag) {
 
 			case DSP: // Display
 			unsigned short a = *(memory + memory_counter);
-			printf("%x\n",a);
+			printf("%d\n",a);
 			break;
 
 			case LDS: // Load
@@ -132,11 +132,17 @@ int microvm(unsigned short* program,int program_length,char debug_flag) {
 			program_counter += 1;
 			break;
 
+			case PUT: // Put a character
+			unsigned short y = *(memory + memory_counter);
+			char c = (char) y;
+			printf("%c",c);
+			break;
+
 			case NOP:
 			break;
 
 			default:
-			printf("The VM halted and caught fire.\n");
+			printf("\nThe VM halted and caught fire.\n");
 			err_flag = 1;
 			halt_flag = 1;
 		}
@@ -148,9 +154,9 @@ int microvm(unsigned short* program,int program_length,char debug_flag) {
 		}
 	}
 	if(!err_flag && !term_flag) {
-		printf("The program halted succesfully.\n");
+		printf("\nThe program halted successfully.\n");
 	} else if(term_flag) {
-		printf("Program terminated succesfully.\n");
+		printf("\nProgram terminated successfully.\n");
 	}
 	return err_flag;
 }
@@ -172,5 +178,6 @@ char* getopcode(unsigned short op) {
 	else if(op == JMM) return "JMM";
 	else if(op == NOP) return "NOP";
 	else if(op == HCF) return "HCF";
+	else if(op == PUT) return "PUT";
 	else return itoa((int) op,buf,10);
 }

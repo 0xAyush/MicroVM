@@ -19,6 +19,7 @@
 #define JMP 0xB // Jump to specified address
 #define JMM 0xC // Change memory counter register to specified location
 #define HCF 0xF // Halt and catch fire
+#define PUT 0xD // Put a charecter
 
 int microvm(unsigned short* program, int program_length,char debug_flag);
 char* getopcode(unsigned short op);

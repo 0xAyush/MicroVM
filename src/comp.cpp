@@ -169,6 +169,7 @@ unsigned short getop(std::string word) {
 	else if(word == "JMM") return JMM;
 	else if(word == "NOP") return NOP;
 	else if(word == "HCF") return HCF;
+	else if(word == "PUT") return PUT;
 	return 0xFF;
 }
 

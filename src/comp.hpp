@@ -1,3 +1,5 @@
+// Copyright 2022 Ayush Sharma
+
 #pragma once
 
 int compile(std::string fname);

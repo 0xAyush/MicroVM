@@ -2,7 +2,7 @@
 
 // This file contains important text data
 
-#define INTRO_TEXT "MicroVM version 0.1\n Copyright (c) 2022 Ayush Sharma.\n"
+#define INTRO_TEXT "MicroVM version 0.1\nCopyright (c) 2022 Ayush Sharma.\n"
 
 #define H_TEXT_1 INTRO_TEXT  "A small VM originally based on the P'' formal language.\n\n"
 #define H_TEXT_2 "Usage MICROVM [-c | -d] [-o] [-h | -help] file.\n\n"

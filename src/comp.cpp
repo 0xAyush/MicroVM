@@ -32,6 +32,10 @@ int compile(std::string fname,std::string ofname) {
 		bool typeOp = false;
 		bool reading = false;
 
+		// Multiline comment flags
+		bool multiline = false;
+		int lparen = 0;
+
 		for(int i = 0; i < line.length(); i++) {
 
 			char c = line[i];
@@ -59,42 +63,46 @@ int compile(std::string fname,std::string ofname) {
 			}
 
 			// Check if word is valid then store in bytecode
-			if(c == ' ' || i == line.length() - 1 || c == '/') { // End of token
+			if(c == ' ' || i == line.length() - 1 || c == '/' || c == '(') { // End of token
 
 				if(i == line.length() - 1 && c != ' '  && c != '/') buf += c; // Because on last charecter buf += c is not yet done, also ' ' and '/' are permissible deviations
 
-				if(buf != "") { // EOL check as well as empty operator check
-					if(typeNum) { // Number logic
-						if(isNumber(buf)) {
-							program[put_i] = (unsigned short) std::stoi(buf);
-							put_i++;
-						} else {
-							validProgram = false;
-							errtext = "Syntax error; " + buf + " is not a number.";
-							break;
+				// Ignore all multiline comments, needs exception at
+				// beginning otherwise  will not load the word touching '('
+				if((!multiline || (lparen == 1 && c =='(')) && c != ')') {
+					if(buf != "") { // EOL check as well as empty operator check
+					 if(typeNum) { // Number logic
+							if(isNumber(buf)) {
+								program[put_i] = (unsigned short) std::stoi(buf);
+								put_i++;
+							} else {
+								validProgram = false;
+								errtext = "Syntax error; " + buf + " is not a number.";
+								break;
+							}
+						} else if(typeOp){ // Opcode logic
+							if(getop(buf) != 0xFF) {
+								program[put_i] = getop(buf);
+								put_i++;
+							} else {
+									validProgram = false;
+									errtext = "Syntax error; " + buf + " is not an opcode.";
+									break;
+								}
+						} else if(typeKink) { // Kink logic
+								if(isNumber(buf)) {
+									put_i = std::stoi(buf);
+								} else {
+									validProgram = false;
+									errtext = "Syntax error; " + buf + " is not a number.";
+									break;
+								}
 						}
-					} else if(typeOp){ // Opcode logic
-						if(getop(buf) != 0xFF) {
-							program[put_i] = getop(buf);
-							put_i++;
-						} else {
-							validProgram = false;
-							errtext = "Syntax error; " + buf + " is not an opcode.";
-							break;
-						}
-					} else if(typeKink) { // Kink logic
-						if(isNumber(buf)) {
-							put_i = std::stoi(buf);
-						} else {
-							validProgram = false;
-							errtext = "Syntax error; " + buf + " is not a number.";
-							break;
-						}
+					} else if(i == line.length() - 1){ // Check if EOL or empty op
+						validProgram = false;
+						errtext = "Syntax error; empty operator.";
+						break;
 					}
-				} else if(i == line.length() - 1){ // Check if EOL or empty op
-					validProgram = false;
-					errtext = "Syntax error; empty operator.";
-					break;
 				}
 
 				typeNum = false;
@@ -103,6 +111,18 @@ int compile(std::string fname,std::string ofname) {
 				reading = false;
 
 				buf = "";
+			}
+
+			// Multiline comment logic
+			if(c == '(') {
+				lparen++;
+				multiline = true;
+			} if(c == ')') {
+				lparen--;
+			}
+
+			if(multiline && lparen == 0) {
+				multiline = false;
 			}
 
 			if(reading) { // After word parsing to prevent space from getting into words

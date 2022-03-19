@@ -1,4 +1,4 @@
-// Copright 2022 Ayush Sharma
+// Copyright 2022 Ayush Sharma
 
 #include <stdlib.h>
 #include <iostream>

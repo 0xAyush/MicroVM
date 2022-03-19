@@ -1,4 +1,4 @@
-// Copright 2022 Ayush Sharma
+// Copyright 2022 Ayush Sharma
 
 // This file contains the code for the VM
 

@@ -48,8 +48,8 @@ Heres is a list of supported operators and their opcodes.
 |DEC|Decrement|0x4|Decrements current cell|
 |JMP|Jump|0xB|Jumps to address in next cell|
 |CPZ|Zero check|0x9|Checks if current cell is zero, sets zero flag to 1 on success, 0 on failure|
-|JEZ|Jump if zero|0x5|Equivalent to JMP but only jumps if zero flag is 1|
-|JNZ|Jump if not zero|0x6|Equivalent to JMP but only jumps if zero flag is 0|
+|JEZ|Jump if zero|0x5|Equivalent to JMP otherwise but only jumps if zero flag is 1|
+|JNZ|Jump if not zero|0x6|Equivalent to JMP otherwise but only jumps if zero flag is 0|
 |JMM|Jump cell|0xC|Set memory counter to address in next cell|
 |DSP|Display|0x7|Outputs current cell to screen|
 |LDS|Load from screen|0x8|Loads data to cell|
